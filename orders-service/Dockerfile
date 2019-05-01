@@ -1,12 +1,8 @@
-FROM node:8
-
-WORKDIR /usr/src/compraTEC/orders-service
-
-COPY package*.json ./
-
-RUN npm install
-
+FROM node:10.13-alpine
+ENV NODE_ENV production
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
 COPY . .
-
-EXPOSE 8080
-CMD[ "npm", "start" ]
+EXPOSE 2000
+CMD node index.js
