@@ -7,7 +7,7 @@ const graphqlExpress = require('express-graphql');
 const { makeExecutableSchema } = require('graphql-tools');
 
 
-const { Order } = require('../../db/db');
+const { Order } = require('../../../../db/db');
 const typeDefs = require('./schema/schema');
 const resolvers = require('./schema/resolvers');
 
