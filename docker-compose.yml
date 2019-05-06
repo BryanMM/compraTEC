@@ -57,6 +57,12 @@ services:
       command: -g "daemon off;" -c /etc/nginx/nginx.conf
       ports:
           - 80:80
+      links: 
+          - orders
+          - visualizer
+      depends_on:
+          - orders
+          - visualizer
       labels:
           - "interlock.ext.name=nginx"
       environment:
