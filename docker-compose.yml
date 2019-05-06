@@ -1,7 +1,6 @@
 version: "3"
 services:
   orders:
-    # replace username/repo:tag with your name and image details
     image: brmasis/compratec:orders-service
     deploy:
       replicas: 5
@@ -12,14 +11,13 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "4000:2000"
+      - "2000"
     networks:
       - webnet
     labels:
       - "interlock.hostname=orders"
       - "interlock.domain=local"
-  visualizer-service:
-    # replace username/repo:tag with your name and image details
+  visualizer:
     image: dockersamples/visualizer
     deploy:
       replicas: 1
@@ -30,7 +28,7 @@ services:
       restart_policy:
         condition: on-failure
       ports:
-      - "3000:8080"
+      - "8080"
   interlock:
     image: ehazlett/interlock:master
     command: -D run -c /etc/interlock/config.toml
