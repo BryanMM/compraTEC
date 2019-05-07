@@ -12,7 +12,7 @@ const typeDefs = require('./schema/schema');
 const resolvers = require('./schema/resolvers');
 
 
-const PORT = process.env.PORT || 2000;
+const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'localhost';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -32,6 +32,6 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 	// Init server
 	app.listen(PORT, () => {
-		console.log('> Server running on 2000/orders')
+		console.log('> Server running on 3000/orders')
 	});
 })();

@@ -1,6 +1,20 @@
 version: "3"
 services:
+  nginx:
+    image: nginx
+    ports:
+        - "8080:8080"
+    volumes:
+        - ./default.conf:/etc/nginx/conf.d/default.conf
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    depends_on:
+        - orders
+        - visualizer
   orders:
+    depends_on:
+        - nginx
     image: brmasis/compratec:orders-service
     deploy:
       replicas: 5
@@ -10,62 +24,16 @@ services:
           memory: 50M
       restart_policy:
         condition: on-failure
-    ports:
-      - "2000"
-    networks:
-      - webnet
-    labels:
-      - "interlock.hostname=orders"
-      - "interlock.domain=local"
+    ports: 
+        - "3001:3000"
   visualizer:
-    image: dockersamples/visualizer
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 500M
-      restart_policy:
-        condition: on-failure
+      image: dockersamples/visualizer:stable
       ports:
-      - "8080"
-  interlock:
-    image: ehazlett/interlock:master
-    command: -D run -c /etc/interlock/config.toml
-    tty: true
-    ports:
-        - 8080
-    environment:
-        INTERLOCK_CONFIG: |
-            ListenAddr = ":8080"
-            DockerURL = "${SWARM_HOST}"
-            TLSCACert = "/etc/docker/ca.pem"
-            TLSCert = "/etc/docker/server.pem"
-            TLSKey = "/etc/docker/server-key.pem"
-            [[Extensions]]
-            Name = "nginx"
-            ConfigPath = "/etc/nginx/nginx.conf"
-            PidPath = "/var/run/nginx.pid"
-            TemplatePath = ""
-            MaxConn = 1024
-            Port = 80
-    volumes:
-        - /etc/docker:/etc/docker:ro
-  nginx:
-      image: nginx:latest
-      entrypoint: nginx
-      command: -g "daemon off;" -c /etc/nginx/nginx.conf
-      ports:
-          - 80:80
-      links: 
-          - orders
-          - visualizer
-      depends_on:
-          - orders
-          - visualizer
-      labels:
-          - "interlock.ext.name=nginx"
-      environment:
-          - "constraint:node==manager"
+        - "8081:8080"
+      volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock"
+      deploy:
+        placement:
+          constraints: [node.role == manager]
 networks:
   webnet:
