@@ -1,0 +1,51 @@
+mutation{
+  createProduct(name:"Pasta dental", brand:"Colgate",
+    weight:"75ml",price:1200, stock:100, provider:"Colgate"){
+    model{
+      id
+      name
+      brand
+      weight
+      price
+      stock
+      provider
+    }
+  }
+}
+
+mutation{
+  updateProduct(id:"5cce7a9637e3fb8262b5c2b0", brand:"Colgate Total", price:1500, stock:90 ){
+    ok
+  }
+}
+
+mutation{
+  deleteProduct(id:"5cce7fb5d51ca42f6a119d32"){
+    ok
+  }
+}
+
+{
+  allProducts{
+    id
+    name
+    brand
+    weight
+    price
+    stock
+    provider
+  }
+}
+
+{
+  productById(id:"5cce811b8c1f311e647fc6b2"){
+    id
+    name
+    brand
+    weight
+    price
+    stock
+    provider
+  }
+}
+

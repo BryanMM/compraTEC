@@ -1,0 +1,7 @@
+curl http://localhost:8080 -d '{"query": "mutation { create_user(UserName: \"ronny\", FirstName: \"Ronny\", LastName: \"Quesada\",  Password: \"hola\") }" }'
+
+curl http://localhost:8080 -d '{"query": "query { sign_in(UserName: \"ronny\", Password: \"hola\") }" }'
+
+curl http://localhost:8080 -d '{"query": "mutation { update_user(UserName: \"ronny\", FirstName: \"Modificado\", LastName: \"Arias\",  Password: \"hola\") }" }'
+
+curl http://localhost:8080 -d '{"query": "mutation { delete_user(UserName: \"ronny\", Password: \"hola\") }" }'

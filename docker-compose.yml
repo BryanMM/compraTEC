@@ -1,11 +1,13 @@
 version: "3"
 services:
   nginx:
-    image: nginx
+    image: brmasis/compratec:gateway
+    entrypoint: nginx
     ports:
-        - "8080:8080"
-    volumes:
-        - ./default.conf:/etc/nginx/conf.d/default.conf
+        - 8888:80
+    command: ["-g", "daemon off;", "-c", "/etc/nginx/conf.d/default.conf"]
+    # volumes:
+    #     - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -13,8 +15,6 @@ services:
         - orders
         - visualizer
   orders:
-    depends_on:
-        - nginx
     image: brmasis/compratec:orders-service
     deploy:
       replicas: 5
@@ -22,18 +22,18 @@ services:
         limits:
           cpus: "0.1"
           memory: 50M
+      placement:
+        constraints: [node.role == worker]
       restart_policy:
         condition: on-failure
     ports: 
-        - "3001:3000"
+        - "3006:3000"
   visualizer:
       image: dockersamples/visualizer:stable
       ports:
-        - "8081:8080"
+        - "3005:8080"
       volumes:
         - "/var/run/docker.sock:/var/run/docker.sock"
       deploy:
         placement:
           constraints: [node.role == manager]
-networks:
-  webnet:

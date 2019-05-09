@@ -28,7 +28,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 	const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 
-	app.use('/orders', bodyParser.json(), graphqlExpress({ schema, graphiql:true }));
+	app.use('/', bodyParser.json(), graphqlExpress({ schema, graphiql:true }));
 
 	// Init server
 	app.listen(PORT, () => {
