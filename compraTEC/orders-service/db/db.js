@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 ////Connect db
-const sequelize = new Sequelize('postgres://jitxsjif:LplgpmJM9HR_FS32g4ZqrAVWdikhKd1M@isilo.db.elephantsql.com:5432/jitxsjif');
+const sequelize = new Sequelize('postgres://jitxsjif:GnL5MazZMd2aw3j_BUvb4GYwcjLv0VXv@isilo.db.elephantsql.com:5432/jitxsjif');
 
 // Table model
 const Order = sequelize.define(

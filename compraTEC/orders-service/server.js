@@ -19,19 +19,19 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 (async () => {
 
-	const app = express();
+  const app = express();
 
-	app.use(cors());
-	app.use(compression());
-	app.use(morgan('common'));
+  app.use(compression());
+  app.use(cors());
+  app.use(morgan('common'));
 
-	const schema = makeExecutableSchema({ typeDefs, resolvers });
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 
-	app.use('/', bodyParser.json(), graphqlExpress({ schema, graphiql:true }));
+  app.use('/', bodyParser.json(), graphqlExpress({ schema, graphiql: true }));
 
-	// Init server
-	app.listen(PORT, () => {
-		console.log('> Server running on 3000/orders')
-	});
+  // Init server
+  app.listen(PORT, () => {
+    console.log('> Server running on 3000/orders')
+  });
 })();

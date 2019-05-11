@@ -1,10 +1,4 @@
 <?php
-// Test this using following command
-// php -S localhost:8080 ./index.php &
-// curl http://localhost:8080 -d '{"query": "query { authUser(UserName: \"Fofo\", Password: \"123\") }" }' &
-// curl http://localhost:8080 -d '{"query": "query { postUser(UserName: \"Fofo\", Password: \"123\") }" }' &
-// curl http://localhost:8080 -d '{"query": "query { updateUser(UserName: \"Fofo\", Password: \"123\") }" }'
-
 // Project requirements
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -32,7 +26,7 @@ try {
                 'resolve' => function($root, $args) {
                     $UserName = $args['UserName'];
                     $Password = $args['Password'];
-                    
+
                     global $conn;
 
                     $sql = "SELECT Id, FirstName FROM users WHERE UserName = '$UserName' AND Password = crypt('$Password', Password)";
@@ -46,12 +40,12 @@ try {
                         return $row;
                     }
 
-                    
+
                 }
-                
-                
+
+
             ],
-            
+
         ],
     ]);
 
@@ -72,7 +66,7 @@ try {
                     $FirstName = $args['FirstName'];
                     $LastName = $args['LastName'];
                     $Password = $args['Password'];
-                    
+
 
                     global $conn;
 
@@ -88,8 +82,8 @@ try {
                         return $UserName;
 
                     }
-                    
-                    
+
+
                 },
             ],
             'update_user' => [
@@ -110,7 +104,7 @@ try {
 
                     //Set sql statement
                     $sql = "UPDATE users SET UserName = '$UserName', FirstName = '$FirstName', LastName = '$LastName' WHERE Password = crypt('$Password', Password) ";
-                   
+
                     $result = pg_query($conn, $sql);
                     if (!$result) {
                         echo "An error occurred.\n";
@@ -131,7 +125,7 @@ try {
                 'resolve' => function($root, $args) {
                     $UserName = $args['UserName'];
                     $Password = $args['Password'];
-                    
+
                     global $conn;
 
                     $sql = "DELETE FROM users WHERE UserName = '$UserName' AND Password = crypt('$Password', Password)";
@@ -144,13 +138,13 @@ try {
                         return $UserName;
                     }
                 }
-                
-                
+
+
             ],
         ],
     ]);
 
-   
+
     // See docs on schema options:
     // http://webonyx.github.io/graphql-php/type-system/schema/#configuration-options
     $schema = new Schema([
@@ -169,6 +163,7 @@ try {
     $result = GraphQL::executeQuery($schema, $query, null, null, $variableValues);
     //converts the result to a PHP array
     $output = $result->toArray();
+
 } catch(\Exception $e) {
     $output = [
         'error' => [
