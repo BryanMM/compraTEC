@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 2000;
   app.use(morgan('common'));
 
   // Whitelist the following IPs
-  var ips = ['::ffff:186.26.117.94'];
+  var ips = ['::ffff:192.168.8.106'];
   // Create the server
   app.use(ipfilter(ips, { mode: 'allow' }))
   const schema = makeExecutableSchema({ typeDefs, resolvers });
