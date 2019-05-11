@@ -7,10 +7,8 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQL\GraphQL;
 
-
 // Connect to mysql
 $conn = pg_connect('postgres://jitxsjif:GnL5MazZMd2aw3j_BUvb4GYwcjLv0VXv@isilo.db.elephantsql.com:5432/jitxsjif') or die ("Could not connect to server\n");
-
 
 try {
     // Define queryType ObjectType
@@ -26,9 +24,7 @@ try {
                 'resolve' => function($root, $args) {
                     $UserName = $args['UserName'];
                     $Password = $args['Password'];
-
                     global $conn;
-
                     $sql = "SELECT Id, FirstName FROM users WHERE UserName = '$UserName' AND Password = crypt('$Password', Password)";
                     $result = pg_query($conn, $sql);
                     if (!$result) {
@@ -39,17 +35,10 @@ try {
                         echo "Welcome!: " . $row[1] . "\n";
                         return $row;
                     }
-
-
                 }
-
-
             ],
-
         ],
     ]);
-
-
     $mutationType = new ObjectType([
         'name' => 'Mutation',
         'fields' => [
@@ -66,13 +55,8 @@ try {
                     $FirstName = $args['FirstName'];
                     $LastName = $args['LastName'];
                     $Password = $args['Password'];
-
-
                     global $conn;
-
-
                     $sql = "INSERT INTO users(UserName,FirstName,LastName,Password) VALUES ('$UserName', '$FirstName', '$LastName', crypt('$Password', gen_salt('bf')))";
-
                     $result = pg_query($conn, $sql);
                     if (!$result) {
                         echo "An error occurred.\n";
@@ -80,10 +64,7 @@ try {
                     }else{
                         echo "User created" . "\n";
                         return $UserName;
-
                     }
-
-
                 },
             ],
             'update_user' => [
@@ -99,12 +80,9 @@ try {
                     $FirstName = $args['FirstName'];
                     $LastName = $args['LastName'];
                     $Password = $args['Password'];
-
                     global $conn;
-
                     //Set sql statement
                     $sql = "UPDATE users SET UserName = '$UserName', FirstName = '$FirstName', LastName = '$LastName' WHERE Password = crypt('$Password', Password) ";
-
                     $result = pg_query($conn, $sql);
                     if (!$result) {
                         echo "An error occurred.\n";
@@ -113,7 +91,6 @@ try {
                         echo "User updated" . "\n";
                         return $UserName;
                     }
-
                 },
             ],
             'delete_user' => [
@@ -125,9 +102,7 @@ try {
                 'resolve' => function($root, $args) {
                     $UserName = $args['UserName'];
                     $Password = $args['Password'];
-
                     global $conn;
-
                     $sql = "DELETE FROM users WHERE UserName = '$UserName' AND Password = crypt('$Password', Password)";
                     $result = pg_query($conn, $sql);
                     if (!$result) {
@@ -138,12 +113,9 @@ try {
                         return $UserName;
                     }
                 }
-
-
             ],
         ],
     ]);
-
 
     // See docs on schema options:
     // http://webonyx.github.io/graphql-php/type-system/schema/#configuration-options

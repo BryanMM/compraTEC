@@ -4,11 +4,9 @@ from graphene.relay import Node
 from graphene_mongo import MongoengineConnectionField, MongoengineObjectType
 from models import Catalog as CatalogModel
 
-
 class Product(MongoengineObjectType):
     class Meta:
         model = CatalogModel
-
 
 class CreateProduct(graphene.Mutation):
     class Arguments:
@@ -19,7 +17,6 @@ class CreateProduct(graphene.Mutation):
         stock = graphene.Int(required=True)
         provider = graphene.String(required=True)
 
-
     model = graphene.Field(Product)
 
     def mutate(self, info, name, brand, weight, price, stock, provider):
@@ -27,7 +24,6 @@ class CreateProduct(graphene.Mutation):
             name=name, brand=brand, weight=weight, price=price, stock=stock, provider=provider)
         model.save(force_insert=True)
         return CreateProduct(model)
-
 
 class DeleteProduct(graphene.Mutation):
     class Arguments:
@@ -39,7 +35,6 @@ class DeleteProduct(graphene.Mutation):
         model = CatalogModel.objects(id=ObjectId(id))
         ok = bool(model.delete())
         return DeleteProduct(ok)
-
 
 class UpdateProduct(graphene.Mutation):
     class Arguments:
@@ -74,16 +69,13 @@ class UpdateProduct(graphene.Mutation):
         if provider:
             model.update_one(provider=provider)
             ok = ok or bool(model.update_one(provider=provider))
-    
 
         return UpdateProduct(ok)
-
 
 class Mutation(graphene.ObjectType):
     create_product = CreateProduct.Field()
     delete_product = DeleteProduct.Field()
     update_product = UpdateProduct.Field()
-
 
 class Query(graphene.ObjectType):
     all_products = graphene.List(Product)
@@ -99,6 +91,5 @@ class Query(graphene.ObjectType):
                 prod = product
                 break
         return prod
-
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

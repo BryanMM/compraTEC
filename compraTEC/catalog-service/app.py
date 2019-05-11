@@ -1,15 +1,15 @@
 #!/usr/local/bin/python3
+import os
 from flask import Flask
 from flask_graphql import GraphQLView
+import mongoengine
 from schema import schema
-from mongoengine import connect
+from pymongo import MongoClient
 
-
-connect(host='mongodb://db/catalog-service')
+mongoengine.connect(host='mongodb://192.168.3.110/?replicaSet=rs/catalog-service')
 
 app = Flask(__name__)
 app.debug = True
-
 app.add_url_rule(
     '/',
     view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True)
