@@ -20,7 +20,7 @@ use \Firebase\JWT\JWT;
 $conn = pg_connect('postgres://jitxsjif:GnL5MazZMd2aw3j_BUvb4GYwcjLv0VXv@isilo.db.elephantsql.com:5432/jitxsjif') or die("Could not connect to server\n");
 
 //allowed IP. Change it to your static IP
-$allowedip = '127.0.0.1';
+$allowedip = '192.168.8.106';
 $ip = $_SERVER['REMOTE_ADDR'];
 
 if ($ip == $allowedip) {

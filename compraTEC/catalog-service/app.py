@@ -10,7 +10,7 @@ app.debug = True
 
 @app.before_request
 def limit_remote_addr():
-    if request.remote_addr != '127.0.0.1':
+    if request.remote_addr != '192.168.8.106':
         abort(403)  # Forbidden
 
 app.add_url_rule(
