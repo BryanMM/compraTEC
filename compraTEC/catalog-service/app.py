@@ -1,19 +1,23 @@
-#!/usr/local/bin/python3
-import os
-from flask import Flask
+from flask import Flask, abort, request
 from flask_graphql import GraphQLView
-import mongoengine
+from mongoengine import connect
 from schema import schema
-from pymongo import MongoClient
 
-mongoengine.connect(host='mongodb://192.168.3.110/?replicaSet=rs/catalog-service')
+connect(host='mongodb://localhost/catalog-service')
 
 app = Flask(__name__)
 app.debug = True
+
+
+@app.before_request
+def limit_remote_addr():
+    if request.remote_addr != '127.0.0.1':
+        abort(403)  # Forbidden
+
 app.add_url_rule(
-    '/',
-    view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True)
+  '/graphql',
+  view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True)
 )
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+  app.run()

@@ -1,14 +1,14 @@
 module.exports = `
 type Order {
-    client: String!,
     id: String!
+    client: String!,
     product: String!,
     quantity: Int!
 }
 
 type Query {
-  allOrders: [Order]
   order(product: String!): Order
+  allOrders: [Order]
 }
 
 type Mutation {
@@ -20,8 +20,8 @@ type Mutation {
   ): Order
 
   updateOrder(
-    client: String,
     id: ID!,
+    client: String,
     product: String,
     quantity: Int
   ): Order
@@ -29,7 +29,6 @@ type Mutation {
   deleteOrder(id: ID!): Order
 
 }
-
 
 type Schema {
   query: Query

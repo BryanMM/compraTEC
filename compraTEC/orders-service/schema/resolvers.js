@@ -2,8 +2,8 @@
 const uuid = require('uuid/v4');
 const { Order } = require('../db/db');
 
-
 const resolvers = {
+
   //Resolve Query
   Query: {
     async allOrders() {
@@ -13,6 +13,7 @@ const resolvers = {
       return await Order.findOne({ where: { product: product } });
     },
   },
+
   //Resolve Mutation
   Mutation: {
     async createOrder(_, { client, product, quantity }) {

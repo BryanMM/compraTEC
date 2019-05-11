@@ -1,4 +1,4 @@
-# catalog-service
+# users-service
 
 install the dependencies:
 
