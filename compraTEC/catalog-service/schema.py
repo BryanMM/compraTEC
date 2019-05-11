@@ -4,11 +4,9 @@ from graphene.relay import Node
 from models import Catalog as CatalogModel
 import graphene
 
-
 class Product(MongoengineObjectType):
   class Meta:
     model = CatalogModel
-
 
 class CreateProduct(graphene.Mutation):
   class Arguments:
@@ -26,8 +24,6 @@ class CreateProduct(graphene.Mutation):
     model.save(force_insert=True)
     return CreateProduct(model)
 
-
-
 class DeleteProduct(graphene.Mutation):
   class Arguments:
     id = graphene.String(required=True)
@@ -38,7 +34,6 @@ class DeleteProduct(graphene.Mutation):
     model = CatalogModel.objects(id=ObjectId(id))
     ok = bool(model.delete())
     return DeleteProduct(ok)
-
 
 class UpdateProduct(graphene.Mutation):
   class Arguments:
@@ -75,12 +70,10 @@ class UpdateProduct(graphene.Mutation):
       ok = ok or bool(model.update_one(provider=provider))
     return UpdateProduct(ok)
 
-
 class Mutation(graphene.ObjectType):
     create_product = CreateProduct.Field()
     delete_product = DeleteProduct.Field()
     update_product = UpdateProduct.Field()
-
 
 class Query(graphene.ObjectType):
   all_products = graphene.List(Product)
@@ -96,6 +89,5 @@ class Query(graphene.ObjectType):
         prod = product
         break
     return prod
-
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

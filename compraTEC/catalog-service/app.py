@@ -8,7 +8,6 @@ connect(host='mongodb://localhost/catalog-service')
 app = Flask(__name__)
 app.debug = True
 
-
 @app.before_request
 def limit_remote_addr():
     if request.remote_addr != '127.0.0.1':

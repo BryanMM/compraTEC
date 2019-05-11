@@ -4,7 +4,6 @@ from mongoengine.fields import (
     IntField, StringField,
 )
 
-
 class Catalog(Document):
   meta = {'collection': 'catalog'}
   name = StringField(required=True)

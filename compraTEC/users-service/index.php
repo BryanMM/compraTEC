@@ -16,10 +16,8 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\GraphQL;
 use \Firebase\JWT\JWT;
 
-
 // Connect to ElephantSQL
 $conn = pg_connect('postgres://jitxsjif:GnL5MazZMd2aw3j_BUvb4GYwcjLv0VXv@isilo.db.elephantsql.com:5432/jitxsjif') or die("Could not connect to server\n");
-
 
 //allowed IP. Change it to your static IP
 $allowedip = '127.0.0.1';
@@ -74,7 +72,6 @@ if ($ip == $allowedip) {
         ],
       ],
     ]);
-
 
     $mutationType = new ObjectType([
       'name' => 'Mutation',
@@ -160,7 +157,6 @@ if ($ip == $allowedip) {
         ],
       ],
     ]);
-
 
     // See docs on schema options:
     // http://webonyx.github.io/graphql-php/type-system/schema/#configuration-options
