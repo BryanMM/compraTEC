@@ -27,4 +27,4 @@ COPY . /app
 
 EXPOSE 2000
 
-CMD ["php", "-S", "localhost:2000", "-t", "/app", "./index.php"]
+CMD ["php", "-S", "0.0.0.0:2000", "-t", "/app", "./index.php"]

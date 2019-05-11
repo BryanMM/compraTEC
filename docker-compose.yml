@@ -48,6 +48,7 @@ services:
     image: brmasis/compratec:orders-service
     ports:
       - "3006:3000"
+      - "5432:5432"
     deploy:
       replicas: 2
       resources:
